@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="ToopherRDP" Language="1033" Version="1.0.0.0" Manufacturer="Toopher, Inc." UpgradeCode="d74ee962-8e56-4c65-875b-a5c2159f43f9">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="Toopher, Inc." Description="Installs the Toopher RDP Credential Provider" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf"/>
+
+    <Condition Message="You need to be an administrator to install [ProductShortName]">Privileged</Condition>
+
+		<Feature Id="ToopherCredentialProvider" Title="Toopher Credential Provider" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="CP_dll_32" />
+      <ComponentGroupRef Id="CP_dll_64" />
+      <ComponentRef Id="ProgramMenuShortcuts"/>
+    </Feature>
+    <UIRef Id="WixUI_Minimal" />
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+        <Directory Id="ToopherProgramFilesDirectory" Name="Toopher">
+          <Directory Id="INSTALLFOLDER" Name="ToopherRDP">
+            <Directory Id="INSTALLFOLDER_Win32" Name="Win32" />
+            <Directory Id="INSTALLFOLDER_x64" Name="x64" />
+          </Directory>
+        </Directory>
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuToopher" Name="Toopher">
+          <Directory Id="ProgramMenuToopherRDP" Name="Toopher RDP Authentication" >
+            <Component Id="ProgramMenuShortcuts" Guid="{cf7dd870-6169-127e-98af-1ff9618b52ed}">
+              <Shortcut Id="ConfigureToopherRDP"
+                        Name="Configure Toopher RDP"
+                        Target="[#config.exe]"
+                        WorkingDirectory="INSTALLFOLDER" />
+              <RegistryValue Root="HKCU" Key="Software\Toopher\ToopherRDP"
+                             Name="installed" Type="integer" Value="1" KeyPath="yes" />
+              <RemoveFolder Id="RemoveProgramMenuToopherRDP"
+                            Directory="ProgramMenuToopherRDP"
+                            On="uninstall"/>
+              <RemoveFolder Id="RemoveProgramMenuToopher"
+                            Directory="ProgramMenuToopher"
+                            On="uninstall"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ToopherAuth.exe" Guid="{207f9870-6166-127e-9ed1-190760c1a1e3}">
+        <File Id="ToopherAuth.exe" KeyPath="yes" Name="$(var.ToopherAuth.TargetFileName)" Source="$(var.ToopherAuth.TargetPath)" />
+      </Component>
+      <Component Id="config.exe" Guid="{2fb49200-6166-127e-94d3-1d32385cce3b}">
+        <File Id="config.exe" KeyPath="yes" Name="$(var.ToopherRdpConfigManager.TargetFileName)" Source="$(var.ToopherRdpConfigManager.TargetPath)" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="CP_dll_32" Directory="INSTALLFOLDER_Win32">
+      <Component Id="CP_dll_32" Guid="{3b868a70-6166-127e-9694-16a30cf8daab}">
+        <File Id="CP_dll_32" KeyPath="yes" Name="ToopherCredentialProvider.dll" Source="$(var.SolutionDir)\bin\Win32\ToopherCredentialProvider.dll" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="CP_dll_64" Directory="INSTALLFOLDER_x64">
+      <Component Id="CP_dll_64" Guid="{48546f10-6166-127e-94d5-1d4350c5699b}">
+        <File Id="CP_dll_64" KeyPath="yes" Name="ToopherCredentialProvider.dll" Source="$(var.SolutionDir)\bin\x64\ToopherCredentialProvider.dll" />
+      </Component>
+    </ComponentGroup>
+    
+	</Fragment>
+</Wix>
