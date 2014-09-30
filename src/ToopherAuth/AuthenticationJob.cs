@@ -111,7 +111,7 @@ namespace ToopherAuth {
 			}
 		}
 
-		async private void RunToopherStateMachine () {
+		private void RunToopherStateMachine () {
 			STATE state = STATE.AUTHENTICATE;
 			AuthenticationStatus authStatus = null;
 			PairingStatus pairingStatus = null;
@@ -250,7 +250,7 @@ namespace ToopherAuth {
 						};
 				}
 				if(!(done || IsCancelled)) {
-					await Task.Delay (1000);
+					Thread.Sleep(1000);
 				}
 			}
 

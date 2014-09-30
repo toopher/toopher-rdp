@@ -39,6 +39,7 @@
 			this.btnCancel.Size = new System.Drawing.Size(109, 41);
 			this.btnCancel.TabIndex = 0;
 			this.btnCancel.Text = "Cancel Logon";
+			this.btnCancel.UseSelectable = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// metroButton1
@@ -48,16 +49,24 @@
 			this.metroButton1.Size = new System.Drawing.Size(75, 23);
 			this.metroButton1.TabIndex = 1;
 			this.metroButton1.Text = "metroButton1";
+			this.metroButton1.UseSelectable = true;
 			this.metroButton1.Visible = false;
 			this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
 			// 
 			// inputTextBox
 			// 
+			this.inputTextBox.Lines = new string[] {
+        "metroTextBox1"};
 			this.inputTextBox.Location = new System.Drawing.Point(3, 34);
+			this.inputTextBox.MaxLength = 32767;
 			this.inputTextBox.Name = "inputTextBox";
+			this.inputTextBox.PasswordChar = '\0';
+			this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.inputTextBox.SelectedText = "";
 			this.inputTextBox.Size = new System.Drawing.Size(369, 23);
 			this.inputTextBox.TabIndex = 6;
 			this.inputTextBox.Text = "metroTextBox1";
+			this.inputTextBox.UseSelectable = true;
 			this.inputTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.inputTextBox_KeyPress);
 			// 
 			// inputPrompt
@@ -71,11 +80,17 @@
 			// 
 			// debugTextBox
 			// 
+			this.debugTextBox.Lines = new string[0];
 			this.debugTextBox.Location = new System.Drawing.Point(23, 164);
+			this.debugTextBox.MaxLength = 32767;
 			this.debugTextBox.Multiline = true;
 			this.debugTextBox.Name = "debugTextBox";
+			this.debugTextBox.PasswordChar = '\0';
+			this.debugTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.debugTextBox.SelectedText = "";
 			this.debugTextBox.Size = new System.Drawing.Size(615, 217);
 			this.debugTextBox.TabIndex = 7;
+			this.debugTextBox.UseSelectable = true;
 			this.debugTextBox.Visible = false;
 			// 
 			// inputPanel

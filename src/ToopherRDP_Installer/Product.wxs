@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="ToopherRDP" Language="1033" Version="1.0.0.0" Manufacturer="Toopher, Inc." UpgradeCode="d74ee962-8e56-4c65-875b-a5c2159f43f9">
+	<Product Id="*" Name="ToopherRDP" Language="1033" Version="1.1.0.0" Manufacturer="Toopher, Inc." UpgradeCode="d74ee962-8e56-4c65-875b-a5c2159f43f9">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="Toopher, Inc." Description="Installs the Toopher RDP Credential Provider" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

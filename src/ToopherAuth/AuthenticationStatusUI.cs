@@ -142,7 +142,7 @@ namespace ToopherAuth {
 				Thread.Sleep (1);
 			}
 			result = getInputText ();
-			hidePrompt ();
+			new Task (hidePrompt).Start ();
 			return result;
 		}
 		private void inputTextBox_KeyPress (object sender, KeyPressEventArgs e) {
@@ -154,56 +154,56 @@ namespace ToopherAuth {
 
 
 		private bool animateStepToward (int targetHeight) {
-			bool result = false;
-			if(this.Height != targetHeight) {
-				int heightStep = (this.Height > targetHeight) ? -5 : 5;
+			if(this.InvokeRequired) {
+				return (bool) this.Invoke ((Func<bool>)delegate { return animateStepToward (targetHeight); });
+			} else {
+				bool result = false;
+				if(this.Height != targetHeight) {
+					int heightStep = (this.Height > targetHeight) ? -5 : 5;
 
-				if(Math.Abs (heightStep) < Math.Abs (this.Height - targetHeight)) {
+					if(Math.Abs (heightStep) < Math.Abs (this.Height - targetHeight)) {
+						this.Height += heightStep;
+					} else {
+						this.Height = targetHeight;
+						result = true;
+					}
 					this.Height += heightStep;
+					if(debugMode) {
+						debugTextBox.Top = this.Height - 240;
+					}
+				} else if(this.Height < targetHeight) {
+					this.Height = this.Height + 1;
 				} else {
-					this.Height = targetHeight;
 					result = true;
 				}
-				this.Height += heightStep;
-				if(debugMode) {
-					debugTextBox.Top = this.Height - 240;
-				}
-			} else if(this.Height < targetHeight) {
-				this.Height = this.Height + 1;
-			} else {
-				result = true;
-			}
-			return result;
-		}
-
-		async private Task animateTowards (int targetHeight) {
-			if(this.InvokeRequired) {
-				this.Invoke ((Action)delegate { animateTowards (targetHeight); });
-			} else {
-				while(!animateStepToward (targetHeight)) {
-					await Task.Delay (10);
-				}
+				return result;
 			}
 		}
 
-		async private Task animateDisplayPrompt () {
+		private void animateTowards (int targetHeight) {
+			while(!animateStepToward (targetHeight)) {
+				Thread.Sleep (10);
+			}
+		}
+
+		private void animateDisplayPrompt () {
 			int targetHeight;
 			if(debugMode) {
 				targetHeight = 420;
 			} else {
 				targetHeight = 180;
 			}
-			await animateTowards (targetHeight);
+			animateTowards (targetHeight);
 		}
 
-		async private Task animateHidePrompt () {
+		private void animateHidePrompt () {
 			int targetHeight;
 			if(debugMode) {
 				targetHeight = 330;
 			} else {
 				targetHeight = 90;
 			}
-			await animateTowards (targetHeight);
+			animateTowards (targetHeight);
 		}
 
 		private void metroButton1_Click (object sender, EventArgs e) {
@@ -225,15 +225,15 @@ namespace ToopherAuth {
 			}
 		}
 
-		async private void displayPrompt () {
-			await animateDisplayPrompt ();
+		private void displayPrompt () {
+			animateDisplayPrompt ();
 			setInputPromptVisible (true);
 			inputPromptDisplayed = true;
 		}
 
-		async private void hidePrompt () {
+		private void hidePrompt () {
 			setInputPromptVisible (false);
-			await animateHidePrompt ();
+			animateHidePrompt ();
 			inputPromptDisplayed = false;
 		}
 
