@@ -86,7 +86,7 @@ namespace ToopherAuth {
 
 			byte[] result;
 
-			using(SHA256 shaM = new SHA256Managed ()) {
+			using(SHA256 shaM = new SHA256CryptoServiceProvider ()) {
 				result = shaM.ComputeHash (idStream.ToArray ());
 			}
 			return Convert.ToBase64String (result);
